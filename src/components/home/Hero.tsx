@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { homeContent } from "@/config/content";
 import { EditorialImage } from "@/components/ui/ProductImage";
+import { LinkButton } from "@/components/ui/Button";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 /**
@@ -53,13 +54,15 @@ export function Hero({ image, imageAlt, caption, captionHref }: HeroProps) {
         <p className="mx-auto mt-8 max-w-xl text-body-lg text-charcoal/75">{description}</p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
+          <LinkButton
             href="/products"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-control bg-cognac px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-ivory transition-colors duration-300 hover:bg-cognac/90 sm:w-auto"
+            variant="primary"
+            size="lg"
+            className="w-full sm:w-auto"
           >
             {primaryCta}
             <ArrowRight aria-hidden="true" className="h-4 w-4" strokeWidth={1.75} />
-          </Link>
+          </LinkButton>
 
           <WhatsAppButton
             variant="outline"
