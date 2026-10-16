@@ -13,7 +13,8 @@ photograph, description and specification on the site is taken from the supplied
 
 ## 1. Requirements
 
-- **Node.js 18.18 or newer** and npm.
+- **Node.js 22** (pinned via `engines` in `package.json`, so Vercel uses Node 22
+  too) and npm.
 - That's it. No database, no API keys, no third-party services.
 
 ---
@@ -241,18 +242,54 @@ and push.
 
 ---
 
-## 8. Notes on verification
+## 8. Dependency versions and security
 
-Be aware of what has and has not been checked, so you know what to confirm
-yourself:
+Versions are pinned deliberately. Next.js has had a run of critical React Server
+Components advisories, and Vercel blocks deploys that use an affected version.
 
-- **Not verified in this environment.** `npm install`, `npm run build`,
-  `npm run typecheck` and `npm run lint` were **not** run here — this environment
-  had no shell. Please run `npm install && npm run build` once locally and fix
-  anything the compiler flags.
-- **Not deployed.** Nothing has been pushed to GitHub or Vercel.
-- **Photographs not extracted here.** The product data is complete, but the
-  photographs depend on `npm run catalog:extract` being run on your machine.
+| Package                | Version   | Why                                                                        |
+| ---------------------- | --------- | -------------------------------------------------------------------------- |
+| `next`                 | `15.5.28` | Newest 15.x (Maintenance LTS). Patched for CVE-2025-66478 (critical RSC RCE), the December 2025 follow-ups, and the 14 October 2026 out-of-band release (CVE-2026-96889 and others). |
+| `react` / `react-dom`  | `19.3.1`  | Current stable; patched for the upstream React advisories.                 |
+| `eslint-config-next`   | `15.5.28` | Must match `next`.                                                          |
+
+Two rules when updating:
+
+- **Keep `next` and `eslint-config-next` on exactly the same version.**
+- Node is pinned to `22.x` in `engines`. Vercel reads this, so the build uses
+  Node 22 rather than auto-upgrading on a new major release.
+
+`next` 15.5 pulls `sharp` (used by the image optimiser) at `^0.35.5` or later,
+which carries the patched `librsvg` needed for CVE-2026-96889. Nothing extra to
+do — just never pin `sharp` below `0.35.5`.
+
+### Refresh the lockfile
+
+`package-lock.json` is committed, so it must not be left pointing at the
+vulnerable `15.1.6`. `npm install` rewrites it in place:
+
+```bash
+npm install
+git add package.json package-lock.json
+git commit -m "Pin patched Next.js 15.5.28 and React 19.3.1"
+git push
+```
+
+Vercel runs `npm install` (not `npm ci`) for npm projects, so it reconciles the
+lock against `package.json` either way — but commit the refreshed lock so the
+repository stays consistent and the security scan sees the patched versions.
+
+---
+
+## 9. Notes on verification
+
+- **`next build` has been verified on Vercel.** It completed and generated all 29
+  routes. That run used the previous pins (`next@15.1.6`); the `15.5.28` upgrade
+  has not been built here, so confirm it once more on the redeploy.
+- `npm run typecheck` and `npm run lint` have **not** been run in this
+  environment (no shell was available). Run them once locally to be sure.
+- **Photographs still depend on `npm run catalog:extract`.** The product data is
+  complete; the images need that script run on your machine.
 - The catalog text was read from page images; product names, dimensions and
   descriptions were transcribed carefully but are worth a quick proofread against
   the PDF.
@@ -261,7 +298,7 @@ yourself:
 
 ---
 
-## 9. Design system
+## 10. Design system
 
 The palette is fixed and small, and is defined once in `tailwind.config.ts`:
 
