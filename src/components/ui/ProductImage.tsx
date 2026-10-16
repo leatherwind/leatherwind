@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
  *      or the file is missing — render a neutral brand surface with the product
  *      name instead of a broken image or an unrelated stand-in picture.
  *   3. Recover. If an image fails to load at runtime (for example, before
- *      `npm run catalog:extract` has been run) the surface falls back to the
+ *      `npm run catalog:images` has been run) the surface falls back to the
  *      same placeholder rather than showing a broken-image icon.
  */
 

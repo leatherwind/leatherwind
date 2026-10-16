@@ -37,44 +37,52 @@ Then open <http://localhost:3000>.
 | `npm run start`           | Serve the production build.                                                |
 | `npm run lint`            | Run ESLint.                                                                |
 | `npm run typecheck`       | Run the TypeScript compiler with no output.                                |
-| `npm run catalog:extract` | Extract text + product photographs from the catalog PDF (see below).       |
+| `npm run catalog:images`  | Crop the product photographs out of the catalog pages (see below).         |
+| `npm run catalog:extract` | Legacy: pull text + any embedded images out of the catalog PDF.            |
 
 ---
 
 ## 3. Getting the catalog photographs onto the site
 
-The site ships with **all product data already filled in** from the catalog
-(`src/data/products.ts`), but the product **photographs** still need to be
-extracted from the PDF, because images cannot be committed as text.
+Every product page in the catalog is a single flat scan, so the photographs
+cannot be pulled out of the PDF as embedded objects — they have to be cropped
+out of the pages. `npm run catalog:images` does that in one pass.
 
-Run this once, from the project root, with `Leatherwind Catalog.pdf` present:
+Export each catalog page as a JPG, save the files in `pdf to images/` named
+`Leatherwind Catalog_page-0001.jpg` … `page-0024.jpg`, then run:
 
 ```bash
 npm install
-npm run catalog:extract
+npm run catalog:images
 ```
 
-This writes:
+For every product page the script estimates the paper colour, masks everything
+that differs from it, finds the largest photographic blob near a hint box, crops
+it, pads the product shots into a 4:5 portrait frame, and writes a JPEG. It
+prints one line per page and records every crop in `catalog/crop-report.json`:
 
-- `public/images/catalog/<product-slug>-01.png`, `-02.png`, … — the embedded
-  product photographs, named after the product they belong to.
-- `catalog/catalog.txt` — all extractable text, page by page.
-- `catalog/manifest.json` — an index of every extracted image.
+- `public/images/catalog/<product-slug>-01.jpg` — the card image for that
+  product.
+- `public/images/catalog/<product-slug>-02.jpg`, `-03.jpg`, … — extra
+  photographs of the same product, which fill its gallery.
 
 Restart `npm run dev` (or rebuild) afterwards and the photographs appear
 throughout the site automatically. **Nothing else needs editing**: galleries are
 discovered from the folder, so a product shows as many photographs as were
-extracted for it.
+cropped for it.
 
-> **If `npm run catalog:extract` reports "no photograph-sized images found"**, the
-> PDF stores each product image as a full-page scan rather than an embedded
-> photograph. In that case, re-export the catalog pages as PNG images, drop them
-> into `catalog/pages/`, and they can be cropped from there.
+> **If one crop lands badly**, open `scripts/crop-catalog-images.mjs`, adjust that
+> page's `hints` entry — `[left, top, right, bottom]` as fractions of the page —
+> and run `npm run catalog:images` again. The hint only guides the search; the
+> pixel analysis chooses the final rectangle.
+>
+> **Preview first:** `npm run catalog:images -- --dry` reports every crop box
+> without writing any files.
 >
 > **Fallback:** if you cannot run Node locally, export each product photograph
-> from your PDF reader as a PNG and save it into `public/images/catalog/` using
+> from your PDF reader as a JPEG and save it into `public/images/catalog/` using
 > the slug names listed in `src/data/products.ts` (for example
-> `leather-wallets-01.png`). The site picks them up with no code change.
+> `leather-wallets-01.jpg`). The site picks them up with no code change.
 
 Until the photographs exist, every image position shows a neutral branded
 placeholder rather than a broken image or a stand-in stock photo.
@@ -111,10 +119,11 @@ src/
     utils.ts                ← small shared helpers
   types/product.ts          ← domain types
 public/
-  images/catalog/           ← extracted catalog photographs (git-committed)
+  images/catalog/           ← cropped catalog photographs (git-committed)
   favicon.svg
 scripts/
-  extract-catalog.mjs       ← the PDF extractor
+  crop-catalog-images.mjs   ← crops the product photographs out of the pages
+  extract-catalog.mjs       ← legacy PDF text/embedded-image extractor
 ```
 
 ### Editing the catalog
@@ -237,8 +246,8 @@ extracted product photographs are committed and travel with the repository.
 ### Redeploying after a change
 
 Push to `main` — Vercel builds and deploys automatically. To update product
-photographs or product data: run `npm run catalog:extract` (if needed), commit,
-and push.
+photographs or product data: run `npm run catalog:images` (if the pages changed),
+commit, and push.
 
 ---
 
@@ -288,8 +297,9 @@ repository stays consistent and the security scan sees the patched versions.
   has not been built here, so confirm it once more on the redeploy.
 - `npm run typecheck` and `npm run lint` have **not** been run in this
   environment (no shell was available). Run them once locally to be sure.
-- **Photographs still depend on `npm run catalog:extract`.** The product data is
-  complete; the images need that script run on your machine.
+- **Photographs still depend on `npm run catalog:images`.** The product data is
+  complete; the images need that script run on your machine, and the resulting
+  `public/images/catalog/*.jpg` files committed.
 - The catalog text was read from page images; product names, dimensions and
   descriptions were transcribed carefully but are worth a quick proofread against
   the PDF.

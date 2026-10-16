@@ -19,9 +19,11 @@ import type { Product } from "@/types/product";
  *    category    must match a `slug` in src/data/categories.ts
  *    image       path under /public
  *
- *  Photographs are produced by `npm run catalog:extract`, which pulls the
- *  embedded images out of the PDF into public/images/catalog/ and names each
- *  file after the product slug (see PRODUCT_PAGE_MAP in that script).
+ *  Photographs are produced by `npm run catalog:images`, which crops each
+ *  product page of the catalog into public/images/catalog/ and names every file
+ *  after the product slug (see scripts/crop-catalog-images.mjs). A product's
+ *  `-01` file is its card image; any further `-02`, `-03` … files become that
+ *  product's gallery.
  * ============================================================================
  */
 export const products: Product[] = [
@@ -44,7 +46,7 @@ export const products: Product[] = [
       "Safety strap for double security",
     ],
     specifications: [{ label: "Strap width", value: '1" / 2.5 cm' }],
-    image: "/images/catalog/dual-camera-harness-strap-01.png",
+    image: "/images/catalog/dual-camera-harness-strap-01.jpg",
     imageAlt:
       "Dual camera harness strap in tan full-grain leather with two cameras attached",
     featured: true,
@@ -60,7 +62,7 @@ export const products: Product[] = [
     description:
       "Designed for outdoor adventurers, this genuine leather waist and thigh pack combines style and functionality, providing a secure, hands-free option for carrying essentials.",
     materials: ["Genuine leather"],
-    image: "/images/catalog/hiking-waist-leg-pack-sling-01.png",
+    image: "/images/catalog/hiking-waist-leg-pack-sling-01.jpg",
     imageAlt:
       "Dark brown leather hiking waist and leg pack with zipped pocket, brass rivets and a detachable thigh strap",
     order: 2,
@@ -74,7 +76,7 @@ export const products: Product[] = [
     description:
       "Stylish and sturdy leather pouches designed to securely hold and protect your scissors.",
     materials: ["Leather"],
-    image: "/images/catalog/scissor-holder-pouch-case-01.png",
+    image: "/images/catalog/scissor-holder-pouch-case-01.jpg",
     imageAlt:
       "Tan leather scissor holder pouch case with dark brown strap closures and metal snap buttons",
     order: 3,
@@ -93,7 +95,7 @@ export const products: Product[] = [
         value: '24 cm / 9.44", 22 cm / 8.66" and 20 cm / 7.87"',
       },
     ],
-    image: "/images/catalog/barber-leather-waist-pouch-01.png",
+    image: "/images/catalog/barber-leather-waist-pouch-01.jpg",
     imageAlt:
       "Black leather barber waist pouch with contrast stitching, multiple front pockets and an adjustable strap",
     order: 4,
@@ -112,7 +114,7 @@ export const products: Product[] = [
         value: '21", 15.5", 9.5", 5.5" and 2.5"',
       },
     ],
-    image: "/images/catalog/motorbike-saddle-tool-bag-01.png",
+    image: "/images/catalog/motorbike-saddle-tool-bag-01.jpg",
     imageAlt:
       "Brown distressed leather motorbike saddle tool bag laid open with a carry handle and elastic tool loops",
     featured: true,
@@ -133,7 +135,7 @@ export const products: Product[] = [
           '5.6", 4.1", 2.3" and 2" (the 1.89" golf ball is shown for scale only and is not included)',
       },
     ],
-    image: "/images/catalog/portable-golf-ball-bag-01.png",
+    image: "/images/catalog/portable-golf-ball-bag-01.jpg",
     imageAlt:
       "Round brown leather golf ball bag with a leather loop, shown with a golf ball for scale",
     order: 6,
@@ -154,7 +156,7 @@ export const products: Product[] = [
           "Measured by neck girth and chest girth — see the fitting guide in the catalog",
       },
     ],
-    image: "/images/catalog/leather-dog-walking-harness-01.png",
+    image: "/images/catalog/leather-dog-walking-harness-01.jpg",
     imageAlt:
       "Tan leather dog walking harness with a metal buckle and rings, showing neck and chest measurement points",
     order: 7,
@@ -168,7 +170,7 @@ export const products: Product[] = [
     description:
       "Crafted from premium leather, our waist belts combine timeless style with exceptional durability. Perfect for any occasion, they showcase impeccable craftsmanship and rugged elegance.",
     materials: ["Premium leather"],
-    image: "/images/catalog/leather-waist-belts-01.png",
+    image: "/images/catalog/leather-waist-belts-01.jpg",
     imageAlt:
       "Black leather waist belt coiled to show a silver rectangular buckle and single-prong closure",
     order: 8,
@@ -182,7 +184,7 @@ export const products: Product[] = [
     description:
       "Crafted from real leather, this desk pad offers a stylish, functional surface for your keyboard, mouse, and laptop. Protect your desk while elevating your workspace with a sleek, antique finish.",
     materials: ["Real leather"],
-    image: "/images/catalog/leather-desk-pad-set-01.png",
+    image: "/images/catalog/leather-desk-pad-set-01.jpg",
     imageAlt:
       "Dark brown leather desk pad on a desk with a keyboard, mouse, monitor and coffee cup",
     featured: true,
@@ -197,7 +199,7 @@ export const products: Product[] = [
     description:
       "Crafted for durability and style, our wallets combine premium leather with practical design for everyday use.",
     materials: ["Premium leather"],
-    image: "/images/catalog/leather-wallets-01.png",
+    image: "/images/catalog/leather-wallets-01.jpg",
     imageAlt:
       "Open brown leather bifold wallet showing card slots and a clear identification window",
     featured: true,
@@ -212,7 +214,7 @@ export const products: Product[] = [
     description:
       "From daily use to professional needs, our bags blend rugged charm with functional design.",
     materials: ["Leather"],
-    image: "/images/catalog/leather-tablet-laptop-bags-01.png",
+    image: "/images/catalog/leather-tablet-laptop-bags-01.jpg",
     imageAlt:
       "Dark brown leather messenger bag with top carry handles and a detachable shoulder strap",
     featured: true,
@@ -227,7 +229,7 @@ export const products: Product[] = [
     description:
       "Elevate your cabinets and drawers with these handmade pure leather handles — sleek, durable, and effortlessly stylish.",
     materials: ["Pure leather"],
-    image: "/images/catalog/leather-drawer-pulls-01.png",
+    image: "/images/catalog/leather-drawer-pulls-01.jpg",
     imageAlt:
       "Tan leather drawer pull with a white snap fastener, one of a set fitted to a chest of drawers",
     order: 12,
@@ -241,7 +243,7 @@ export const products: Product[] = [
     description:
       "Handcrafted for durability and style, this premium leather holder keeps your whip secure — ideal for horse riding or Halloween flair.",
     materials: ["Premium leather"],
-    image: "/images/catalog/leather-whip-holster-01.png",
+    image: "/images/catalog/leather-whip-holster-01.jpg",
     imageAlt:
       "Tan leather whip holster with two silver snap buttons, shown on white",
     order: 13,
@@ -255,7 +257,7 @@ export const products: Product[] = [
     description:
       "Versatile and sturdy, Leather Wind watch straps blend lasting comfort with timeless style. Designed to elevate any look, they're crafted for durability and elegance.",
     materials: ["Leather"],
-    image: "/images/catalog/leather-watch-straps-01.png",
+    image: "/images/catalog/leather-watch-straps-01.jpg",
     imageAlt:
       "Brown leather watch strap shown flat with a gold-tone buckle and keeper",
     featured: true,
@@ -271,7 +273,7 @@ export const products: Product[] = [
       "Keep your eyewear safe in style with this minimalist, handcrafted full-grain leather sleeve — perfect for travel and outdoor adventures.",
     materials: ["Full-grain leather"],
     specifications: [{ label: "Dimensions", value: '6.5" × 3"' }],
-    image: "/images/catalog/leather-sunglasses-sleeve-01.png",
+    image: "/images/catalog/leather-sunglasses-sleeve-01.jpg",
     imageAlt:
       "Tan full-grain leather sunglasses sleeve with a centre snap button and side rivets",
     order: 15,
@@ -288,7 +290,7 @@ export const products: Product[] = [
     specifications: [
       { label: "Labelled dimensions", value: '13" × 8.6"; 4" panels' },
     ],
-    image: "/images/catalog/leather-case-for-notebook-01.png",
+    image: "/images/catalog/leather-case-for-notebook-01.jpg",
     imageAlt:
       "Brown leather notebook case opened flat with a tan lining, closure strap and pen loop",
     featured: true,
@@ -302,7 +304,7 @@ export const products: Product[] = [
     summary: "Small real leather keepers with a metal snap.",
     materials: ["Real leather"],
     specifications: [{ label: "Dimensions", value: '2" × 1.25"' }],
-    image: "/images/catalog/leather-cord-keepers-01.png",
+    image: "/images/catalog/leather-cord-keepers-01.jpg",
     imageAlt:
       "Small brown antique-finish leather cord keeper with a round silver metal snap",
     order: 17,
@@ -317,7 +319,7 @@ export const products: Product[] = [
       "Celebrate life's precious moments with this handcrafted full grain leather ring case — perfect for proposals, weddings, and cherished keepsakes.",
     materials: ["Handcrafted full-grain leather"],
     specifications: [{ label: "Dimensions", value: '2.25" × 2.25"' }],
-    image: "/images/catalog/leather-wedding-ring-case-01.png",
+    image: "/images/catalog/leather-wedding-ring-case-01.jpg",
     imageAlt:
       "Closed tan full-grain leather wedding ring case with a snap closure",
     order: 18,

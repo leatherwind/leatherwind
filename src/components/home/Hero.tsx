@@ -1,41 +1,24 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { homeContent } from "@/config/content";
-import { EditorialImage } from "@/components/ui/ProductImage";
 import { LinkButton } from "@/components/ui/Button";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 /**
  * Homepage hero.
  *
- * Composition: a centred editorial copy block on ivory, followed by a wide,
- * full-bleed photographic band. There is no side-by-side split — the headline
- * gets the full width of the page to itself, and the photograph is presented as
- * one cinematic plate beneath it, the way a catalogue opener would be set.
- *
- * The featured-product caption sits in a quiet magazine-style line under the
- * photograph rather than over it, so it stays legible whatever the image.
- *
- * When no catalog photograph is available yet, EditorialImage renders a deep
- * espresso panel, so the composition holds together without a stock photo.
+ * A single, centred editorial copy block on ivory: eyebrow, headline, rule,
+ * description, and the two actions. Deliberately no photograph — the headline
+ * gets the full width of the page to itself and the composition reads like the
+ * opening spread of a catalogue, with the photography beginning further down
+ * the page.
  */
 
-interface HeroProps {
-  image?: string;
-  imageAlt?: string;
-  /** Small caption under the photograph, e.g. the featured product name. */
-  caption?: string;
-  /** Where the caption links to, when it refers to a real product. */
-  captionHref?: string;
-}
-
-export function Hero({ image, imageAlt, caption, captionHref }: HeroProps) {
+export function Hero() {
   const { eyebrow, title, description, primaryCta, secondaryCta } = homeContent.hero;
 
   return (
     <section className="border-b border-sand bg-ivory" aria-labelledby="hero-title">
-      {/* Centred copy */}
-      <div className="lw-container pb-12 pt-16 text-center sm:pt-20 lg:pb-16 lg:pt-24">
+      <div className="lw-container py-20 text-center sm:py-24 lg:py-32">
         <div className="flex items-center justify-center gap-4">
           <span className="hidden h-px w-10 bg-sand sm:block" aria-hidden="true" />
           <p className="lw-eyebrow">{eyebrow}</p>
@@ -72,41 +55,6 @@ export function Hero({ image, imageAlt, caption, captionHref }: HeroProps) {
           />
         </div>
       </div>
-
-      {/* Wide photographic band — full-bleed, presented as a single plate. */}
-      <div className="relative">
-        <EditorialImage
-          src={image}
-          alt={imageAlt ?? "Leather Wind collection"}
-          aspect="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] lg:max-h-[38rem]"
-          sizes="100vw"
-          priority
-        />
-      </div>
-
-      {/* Magazine-style caption line, shown only when it refers to a product. */}
-      {caption ? (
-        <div className="lw-container flex flex-wrap items-baseline gap-x-4 gap-y-1 py-5">
-          <span className="text-[0.625rem] font-semibold uppercase tracking-[0.2em] text-charcoal/45">
-            Featured
-          </span>
-          {captionHref ? (
-            <Link
-              href={captionHref}
-              className="group inline-flex items-center gap-2 font-serif text-lg text-espresso transition-colors duration-300 hover:text-cognac"
-            >
-              {caption}
-              <ArrowRight
-                aria-hidden="true"
-                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                strokeWidth={1.5}
-              />
-            </Link>
-          ) : (
-            <span className="font-serif text-lg text-espresso">{caption}</span>
-          )}
-        </div>
-      ) : null}
     </section>
   );
 }

@@ -32,7 +32,7 @@ interface ProductGalleryProps {
 /**
  * next/image with an honest failure state.
  *
- * The catalog photographs are produced by `npm run catalog:extract`. If that has
+ * The catalog photographs are produced by `npm run catalog:images`. If that has
  * not been run yet, the frame shows a neutral brand surface rather than a broken
  * image icon. `compact` drops the label for the small thumbnail rail.
  */

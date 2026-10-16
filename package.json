@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "catalog:extract": "node scripts/extract-catalog.mjs"
+    "catalog:extract": "node scripts/extract-catalog.mjs",
+    "catalog:images": "node scripts/crop-catalog-images.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.474.0",
@@ -28,6 +29,7 @@
     "pdfjs-dist": "^4.10.38",
     "pngjs": "^7.0.0",
     "postcss": "^8.5.1",
+    "sharp": "^0.35.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"
   },

@@ -63,10 +63,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const categoryName = getCategoryName(product.category);
 
-  // Photographs extracted from the PDF by `npm run catalog:extract`. The
-  // extractor names every file after the product slug, so the gallery is
-  // derived from the directory and always matches what was extracted. If the
-  // extractor has not been run, fall back to the single declared image.
+  // Photographs cropped from the catalog pages by `npm run catalog:images`. The
+  // cropper names every file after the product slug, so the gallery is derived
+  // from the directory and always matches what was cropped. If the cropper has
+  // not been run, fall back to the single declared image.
   const discovered = getCatalogImages(product.slug);
   const gallerySources =
     discovered.length > 0 ? discovered : product.image ? [product.image] : [];

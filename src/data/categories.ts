@@ -19,7 +19,7 @@ export const categories: Category[] = [
     name: "Bags & Cases",
     description:
       "Rugged leather carry for tools, devices and everyday items, with padded and organised interiors.",
-    image: "/images/catalog/leather-tablet-laptop-bags-01.png",
+    image: "/images/catalog/leather-tablet-laptop-bags-01.jpg",
     imageAlt: "Leather tablet and laptop bags from the Leather Wind collection",
     order: 1,
   },
@@ -28,7 +28,7 @@ export const categories: Category[] = [
     name: "Pouches & Holders",
     description:
       "Waist and belt-mounted leather pouches built to keep tools and equipment close at hand.",
-    image: "/images/catalog/barber-leather-waist-pouch-01.png",
+    image: "/images/catalog/barber-leather-waist-pouch-01.jpg",
     imageAlt: "Leather waist pouches from the Leather Wind collection",
     order: 2,
   },
@@ -37,7 +37,7 @@ export const categories: Category[] = [
     name: "Straps & Belts",
     description:
       "Leather belts, harnesses and straps that carry, secure and finish an outfit.",
-    image: "/images/catalog/leather-waist-belts-01.png",
+    image: "/images/catalog/leather-waist-belts-01.jpg",
     imageAlt: "Leather belts and straps from the Leather Wind collection",
     order: 3,
   },
@@ -46,7 +46,7 @@ export const categories: Category[] = [
     name: "Everyday Carry",
     description:
       "Small leather pieces for daily use and gifting — wallets, sleeves, keepers and ring cases.",
-    image: "/images/catalog/leather-wallets-01.png",
+    image: "/images/catalog/leather-wallets-01.jpg",
     imageAlt: "Leather wallets from the Leather Wind collection",
     order: 4,
   },
@@ -55,7 +55,7 @@ export const categories: Category[] = [
     name: "Home & Desk",
     description:
       "Leather for the workspace and the home, from full desk surfaces to furniture handles.",
-    image: "/images/catalog/leather-desk-pad-set-01.png",
+    image: "/images/catalog/leather-desk-pad-set-01.jpg",
     imageAlt: "Leather desk pads and home accessories from the Leather Wind collection",
     order: 5,
   },
@@ -63,7 +63,7 @@ export const categories: Category[] = [
     slug: "pet",
     name: "Pet",
     description: "Handcrafted leather for dogs, made for everyday walks.",
-    image: "/images/catalog/leather-dog-walking-harness-01.png",
+    image: "/images/catalog/leather-dog-walking-harness-01.jpg",
     imageAlt: "Leather dog walking harness from the Leather Wind collection",
     order: 6,
   },

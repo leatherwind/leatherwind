@@ -3,10 +3,10 @@ import path from "node:path";
 
 /**
  * Server-only helper that discovers the catalog photographs extracted by
- * `npm run catalog:extract`.
+ * `npm run catalog:images`.
  *
- * The extractor names every file after its product slug —
- * `dual-camera-harness-strap-01.png`, `…-02.png`, and so on — so a product's
+ * The cropper names every file after its product slug —
+ * `dual-camera-harness-strap-01.jpg`, `…-02.jpg`, and so on — so a product's
  * complete gallery can be derived from the directory itself. That keeps the
  * gallery in sync with whatever was actually extracted, with no hand-maintained
  * list to drift out of date.
