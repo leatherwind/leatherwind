@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Leather Wind — base layer
+   ========================================================================== */
+
+@layer base {
+  :root {
+    --lw-espresso: #241914;
+    --lw-leather: #3a2921;
+    --lw-cognac: #a66b45;
+    --lw-charcoal: #302c29;
+    --lw-ivory: #f7f3ed;
+    --lw-sand: #e7dcce;
+    --lw-white: #ffffff;
+
+    /* Header height, referenced by scroll-margin rules. */
+    --lw-header-h: 4.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --lw-header-h: 5.5rem;
+    }
+  }
+
+  * {
+    @apply border-sand;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ivory text-charcoal font-sans antialiased;
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings are set in the editorial serif and never forced to a single
+     size; each usage picks from the display scale. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif text-espresso;
+    font-weight: 500;
+  }
+
+  /* Anchor targets should clear the sticky header. */
+  :target {
+    scroll-margin-top: calc(var(--lw-header-h) + 1.5rem);
+  }
+
+  ::selection {
+    background-color: var(--lw-cognac);
+    color: var(--lw-ivory);
+  }
+
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--lw-cognac);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  /* Images never overflow their container. */
+  img,
+  svg,
+  video {
+    max-width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+
+@layer components {
+  .lw-container {
+    @apply mx-auto w-full max-w-content px-gutter;
+  }
+
+  /* Small all-caps label used above section headings. */
+  .lw-eyebrow {
+    @apply text-eyebrow font-sans font-semibold uppercase text-cognac;
+  }
+
+  /* A hairline rule that reads as a tailored seam, not a border. */
+  .lw-rule {
+    @apply h-px w-full border-0 bg-sand;
+  }
+
+  /* Understated link underline that grows from the left on hover. */
+  .lw-link {
+    @apply relative inline-flex items-center gap-1 text-sm font-medium text-espresso transition-colors duration-300;
+  }
+
+  .lw-link::after {
+    content: "";
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-100 bg-sand transition-transform duration-300 ease-editorial;
+  }
+
+  .lw-link:hover {
+    @apply text-cognac;
+  }
+
+  .lw-link:hover::after {
+    @apply bg-cognac;
+  }
+
+  /* Text measure helpers. */
+  .lw-measure {
+    @apply max-w-prose text-body text-charcoal/80;
+  }
+
+  /* Placeholder surface used when a catalog photograph has not been supplied
+     yet. It is a neutral brand surface, never a stand-in photograph. */
+  .lw-image-placeholder {
+    @apply flex items-center justify-center bg-sand/60 text-caption uppercase tracking-[0.18em] text-charcoal/45;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@layer utilities {
+  /* Fine vertical rhythm for long-form editorial copy. */
+  .lw-copy > * + * {
+    margin-top: 1.15em;
+  }
+
+  .lw-no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .lw-no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hairline separator that works on both ivory and espresso surfaces. */
+  .lw-hairline-dark {
+    @apply border-white/10;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
