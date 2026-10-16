@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+next-env.d.ts
+
+# Production
+dist/
+
+# Environment
+.env
+.env*.local
+!.env.example
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ---------------------------------------------------------------------------
+# Catalog working files.
+#
+# The source PDF and the raw page exports are local working material. The
+# *output* of the extraction script (public/images/catalog, and the
+# transcribed src/data/products.ts) is what ships with the repository.
+# ---------------------------------------------------------------------------
+*.pdf
+/pdf to images/
+/catalog/pages/
+/catalog/embedded/
+/catalog/tmp/
+_catalog_pages/
+_probe/
